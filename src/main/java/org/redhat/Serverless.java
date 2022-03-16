@@ -18,7 +18,7 @@ public class Serverless {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String,Double> net(@QueryParam("growth") @DefaultValue("0") Integer growth) {
         Map<String,Double> map= new HashMap<>();
-        map.put("salary", growth*0.7);
+        map.put("salary", growth*0.5);
         return map;
     }
 
