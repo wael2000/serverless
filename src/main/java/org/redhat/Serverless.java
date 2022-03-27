@@ -1,6 +1,7 @@
 package org.redhat;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
 
-@Path("/salary")
+@Path("/")
 public class Serverless {
 
     @GET
@@ -21,5 +22,14 @@ public class Serverless {
         map.put("salary", growth*0.5);
         return map;
     }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String,Double> net( Map<String,Double> map) {
+        map.put("salary", map.get("growth")*0.5);
+        return map;
+    }
+
+    
 
 }
