@@ -27,6 +27,8 @@ public class Serverless {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String,Double> net( Map<String,Double> map) {
         map.put("salary", map.get("growth")*0.5);
+        System.out.println("Growth:" + map.get("growth"));
+        System.out.println("Net:" + map.get("salary"));
         return map;
     }
 

@@ -1,0 +1,37 @@
+{
+  "apiVersion" : "serving.knative.dev/v1",
+  "kind" : "Service",
+  "metadata" : {
+    "annotations" : {
+      "app.quarkus.io/commit-id" : "7d33169706730dfc072719ca18e19f16bab2aae5",
+      "app.quarkus.io/build-timestamp" : "2022-03-28 - 12:10:11 +0000"
+    },
+    "labels" : {
+      "app.kubernetes.io/name" : "serverless",
+      "app.kubernetes.io/version" : "1.0"
+    },
+    "name" : "serverless"
+  },
+  "spec" : {
+    "template" : {
+      "metadata" : {
+        "labels" : {
+          "app.kubernetes.io/name" : "serverless",
+          "app.kubernetes.io/version" : "1.0"
+        }
+      },
+      "spec" : {
+        "containerConcurrency" : 0,
+        "containers" : [ {
+          "image" : "redhat/serverless:1.0",
+          "name" : "serverless",
+          "ports" : [ {
+            "containerPort" : 8080,
+            "name" : "http1",
+            "protocol" : "TCP"
+          } ]
+        } ]
+      }
+    }
+  }
+}

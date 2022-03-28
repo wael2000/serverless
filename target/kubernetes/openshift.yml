@@ -1,0 +1,143 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 7d33169706730dfc072719ca18e19f16bab2aae5
+    app.quarkus.io/build-timestamp: 2022-03-28 - 12:10:11 +0000
+  labels:
+    app.kubernetes.io/name: serverless
+    app.kubernetes.io/version: "1.0"
+    app.openshift.io/runtime: quarkus
+  name: serverless
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: serverless
+    app.kubernetes.io/version: "1.0"
+  type: ClusterIP
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app.kubernetes.io/name: serverless
+    app.kubernetes.io/version: "1.0"
+  name: s2i-java
+spec:
+  dockerImageRepository: fabric8/s2i-java
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 7d33169706730dfc072719ca18e19f16bab2aae5
+    app.quarkus.io/build-timestamp: 2022-03-28 - 12:10:11 +0000
+  labels:
+    app.kubernetes.io/name: serverless
+    app.kubernetes.io/version: "1.0"
+    app.openshift.io/runtime: quarkus
+  name: serverless
+spec: {}
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 7d33169706730dfc072719ca18e19f16bab2aae5
+    app.quarkus.io/build-timestamp: 2022-03-28 - 12:10:11 +0000
+  labels:
+    app.kubernetes.io/name: serverless
+    app.kubernetes.io/version: "1.0"
+    app.openshift.io/runtime: quarkus
+  name: serverless
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: serverless:1.0
+  source:
+    binary: {}
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: s2i-java:2.3
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 7d33169706730dfc072719ca18e19f16bab2aae5
+    app.quarkus.io/build-timestamp: 2022-03-28 - 12:10:11 +0000
+  labels:
+    app.kubernetes.io/name: serverless
+    app.kubernetes.io/version: "1.0"
+    app.openshift.io/runtime: quarkus
+  name: serverless
+spec:
+  replicas: 1
+  selector:
+    app.kubernetes.io/name: serverless
+    app.kubernetes.io/version: "1.0"
+  template:
+    metadata:
+      annotations:
+        app.openshift.io/vcs-url: <<unknown>>
+        app.quarkus.io/commit-id: 7d33169706730dfc072719ca18e19f16bab2aae5
+        app.quarkus.io/build-timestamp: 2022-03-28 - 12:10:11 +0000
+      labels:
+        app.kubernetes.io/name: serverless
+        app.kubernetes.io/version: "1.0"
+        app.openshift.io/runtime: quarkus
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: JAVA_APP_JAR
+              value: /deployments/serverless-1.0-runner.jar
+          image: redhat/serverless:1.0
+          imagePullPolicy: Always
+          name: serverless
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - serverless
+        from:
+          kind: ImageStreamTag
+          name: serverless:1.0
+      type: ImageChange
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    app.openshift.io/vcs-url: <<unknown>>
+    app.quarkus.io/commit-id: 7d33169706730dfc072719ca18e19f16bab2aae5
+    app.quarkus.io/build-timestamp: 2022-03-28 - 12:10:11 +0000
+  labels:
+    app.kubernetes.io/name: serverless
+    app.kubernetes.io/version: "1.0"
+    app.openshift.io/runtime: quarkus
+  name: serverless
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: serverless
