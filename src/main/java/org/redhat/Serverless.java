@@ -27,7 +27,7 @@ public class Serverless {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String,Double> net( Map<String,Double> map) {
-        map.put("salary", map.get("growth")*0.5);
+        map.put("salary", map.get("growth")*0.6);
         Log.info(map);
         return map;
     }
