@@ -12,7 +12,7 @@ public class serverlessTest {
     @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/salary")
+          .when().get("/")
           .then()
              .statusCode(200)
              .body(is("{\"salary\":0.0}"));
