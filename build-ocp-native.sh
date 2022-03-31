@@ -2,4 +2,4 @@
 #export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java11-21.2.0/Contents/Home
 #mvn clean package -Pnative -Dquarkus.kubernetes.deploy=true -DskipTests 
 #mvn clean package -Pnative -DskipTests -Dquarkus.package.uber-jar=false 
-mvn clean package -DskipTests -Pnative -X
+mvn clean package -DskipTests -Pnative
